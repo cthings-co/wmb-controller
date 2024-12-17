@@ -1,0 +1,2 @@
+wmb.proto.mb_protocol.ModbusOneShotFrame.modbus_frame max_size:256
+wmb.proto.mb_protocol.ModbusPeriodicalFrame.modbus_frame max_size:256
