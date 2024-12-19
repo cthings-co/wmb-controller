@@ -6,6 +6,18 @@ from time import time, sleep
 
 from wirepas_gateway.dbus.dbus_client import BusClient
 from wirepas_gateway import __pkg_name__
+import mb_protocol_enums_pb2 as mb_enums
+from encoding import (
+    create_device_reset,
+    create_diagnostics,
+    create_device_mode,
+    create_antenna_config,
+    create_baudrate_config,
+    create_modbus_oneshot,
+    create_modbus_periodic
+)
+
+from decoding import decode_response
 
 
 EP_SRC_MAP = {
@@ -114,6 +126,15 @@ class WMBController(BusClient):
         data,
     ):
         logging.debug("Received data: from {} dst: {} EP: {}->{}".format(src, dst, src_ep, dst_ep))
+        
+        # Decode response using decode_response
+        success, error_msg, decoded_msg = decode_response(data)
+        
+        if success:
+            logging.info("Decoded message: {}".format(decoded_msg))
+        else:
+            logging.error("Failed to decode message: {}".format(error_msg))
+            
         if (self.cmd_type == "ping"):
             try:
                 strdata = data.decode('utf-8')
@@ -156,7 +177,7 @@ def main():
         '--cmd-type',
         required=False,
         type=str,
-        help='Command Type (auto-selects EPs): "ping", "modbus", "ctrl", "fota", "stress-test", "scan"'
+        help='Command Type (auto-selects EPs): "ping", "modbus", "ctrl", "fota", "stress-test", "scan", "mb-command"'
     )
     args = parser.parse_args()
 
@@ -170,6 +191,9 @@ def main():
             assert False, "Not supported"
         elif (args.cmd_type == "fota"):
             assert False, "Not supported"
+        elif (args.cmd_type == "mb-command"):
+            # Create a device reset command as an example
+            payload_coded = create_device_reset()
         elif (args.cmd_type == "stress-test"):
             payload = str()
             for i in range(0, 1023):
