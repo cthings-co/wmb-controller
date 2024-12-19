@@ -26,11 +26,13 @@ EP_SRC_MAP = {
         "modbus": 64,
         "ctrl":   200,
         "fota":   201,
+        "mb-command": 64,
 }
 
 EP_DST_MAP = {
         "ping": 1,
         "stress-test": 1,
+        "mb-command": 64,
 }
 
 
