@@ -23,7 +23,7 @@ message = mb_protocol.MbMessage()
 # Test with specific hex data
 #hex_string = "08 47 10 01 18 07 2a 0c 12 0a 1a 08 10 01 22 04 00 00 00 00"
 # test_data = "\x08G\x10\x01\x18\x01*\x02\n\x00X\xfd"
-test_data = "\x08\x47\x10\x01\x18\x08\x2a\x17\x0a\x15\x32\x13\x10\x02\x18\x07\x20\xd9\x10\x2a\x0a\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x3f\xce"
+test_data = "\x08\x47\x10\x01\x18\x01\x2a\x04\x0a\x02\x0a\x00\xef\x30"
 
 # Separate message data from CRC
 message_data = test_data[:-2].encode('latin1')  # Convert to bytes immediately

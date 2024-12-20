@@ -26,8 +26,9 @@ def create_device_reset() -> bytes:
     message = create_message()
     message.cmd = mb_protocol.Cmd.CMD_DEV_RESET
     
-    # Add empty command frame to payload
+    # Create command frame with empty frame
     cmd_frame = mb_commands.CmdFrame()
+    cmd_frame.empty_frame.CopyFrom(mb_commands.EmptyFrame())
     message.payload.payload_cmd_frame.CopyFrom(cmd_frame)
     
     return add_crc(message.SerializeToString())
@@ -37,8 +38,9 @@ def create_diagnostics() -> bytes:
     message = create_message()
     message.cmd = mb_protocol.Cmd.CMD_DIAGNOSTICS
     
-    # Add empty command frame to payload
+    # Create command frame with empty frame
     cmd_frame = mb_commands.CmdFrame()
+    cmd_frame.empty_frame.CopyFrom(mb_commands.EmptyFrame())
     message.payload.payload_cmd_frame.CopyFrom(cmd_frame)
     
     return add_crc(message.SerializeToString())
@@ -165,3 +167,15 @@ def create_modbus_periodic(
 def print_hex_bytes(bytes_data: bytes) -> None:
     """Print bytes as space-separated hex values"""
     print(' '.join(f'{b:02x}' for b in bytes_data))
+
+
+def main():
+    """Main function to demonstrate encoding functions"""
+    # Create a device reset frame
+    reset_frame = create_device_reset()
+    
+    print("Device Reset Frame (hex):")
+    print_hex_bytes(reset_frame)
+
+if __name__ == "__main__":
+    main()
