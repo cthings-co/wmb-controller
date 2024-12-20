@@ -39,7 +39,6 @@ def decode_response(frame: bytes) -> Tuple[bool, Optional[str], Optional[mb_prot
         # Parse message using protobuf
         message = mb_protocol.MbMessage()
         message.ParseFromString(message_data)
-        print(message)
         return True, None, message
 
     except Exception as e:

@@ -168,14 +168,3 @@ def print_hex_bytes(bytes_data: bytes) -> None:
     """Print bytes as space-separated hex values"""
     print(' '.join(f'{b:02x}' for b in bytes_data))
 
-
-def main():
-    """Main function to demonstrate encoding functions"""
-    # Create a device reset frame
-    reset_frame = create_device_reset()
-    
-    print("Device Reset Frame (hex):")
-    print_hex_bytes(reset_frame)
-
-if __name__ == "__main__":
-    main()
