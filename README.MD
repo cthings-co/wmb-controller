@@ -7,7 +7,7 @@ A Python implementation of the WMB protocol for communication with WMB devices.
 ```bash
 # Clone the repository
 git clone [repository-url]
-cd wmb-protocol
+cd wmb-controller
 
 # Install dependencies
 pip install -r requirements.txt
@@ -64,7 +64,7 @@ print_hex_bytes(create_device_reset())
 
 # Test data to decode
 test_data = "\x47\x01\x18\x01\x2a\x04\x0a\x02\x0a\x00\xef\x30"
-frame = test_data.encode('latin1')
+frame = test_data.encode('utf-8')
 
 # Decode the message
 success, error, message = decode_response(frame)
