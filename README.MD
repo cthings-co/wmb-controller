@@ -30,7 +30,7 @@ The package includes pre-compiled Protocol Buffer files, so it can be used direc
    # TODO
    ```
 
-This will regenerate the Protocol Buffer Python files in the `generated` directory.
+This will regenerate the Protocol Buffer Python files in the `wmb_protocol` directory.
 
 
 ## Project Structure

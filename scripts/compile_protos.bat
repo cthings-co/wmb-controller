@@ -3,9 +3,10 @@ setlocal
 
 :: Set directories
 set PROTO_DIR=proto\mb_protocol
+set OUT_DIR=..\wmb_protocol
 
 :: Compile proto files
-protoc -I=%PROTO_DIR% --python_out=generated ^
+protoc -I=%PROTO_DIR% --python_out=%OUT_DIR% ^
     %PROTO_DIR%\mb_protocol.proto ^
     %PROTO_DIR%\mb_protocol_answers.proto ^
     %PROTO_DIR%\mb_protocol_commands.proto ^
