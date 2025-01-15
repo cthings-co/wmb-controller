@@ -70,9 +70,6 @@ The following commands are available through the wmb_protocol package:
 
 For detailed usage of each command, refer to the example.py file.
 
-
-```
-
 ## License
 
 Apache-2.0 License © 2025 CTHINGS.CO
