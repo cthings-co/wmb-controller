@@ -13,6 +13,26 @@ cd wmb-protocol
 pip install -r requirements.txt
 ```
 
+## Protocol Buffer Files
+
+The package includes pre-compiled Protocol Buffer files, so it can be used directly after installation. However, if you need to recompile the Protocol Buffer files, you'll need to:
+
+1. Install the Protocol Buffer compiler (protoc):
+   - Follow installation instructions at: https://grpc.io/docs/protoc-installation/
+   - Make sure protoc is available in your system PATH
+
+2. Run the compilation script:
+   ```bash
+   # On Windows
+   scripts/compile_protos.bat
+   
+   # On Linux/Mac
+   # TODO
+   ```
+
+This will regenerate the Protocol Buffer Python files in the `generated` directory.
+
+
 ## Project Structure
 
 ```
