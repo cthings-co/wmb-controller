@@ -7,7 +7,7 @@ from time import time, sleep
 from wirepas_gateway.dbus.dbus_client import BusClient
 from wirepas_gateway import __pkg_name__
 import mb_protocol_enums_pb2 as mb_enums
-from encoding import (
+from wmb_protocol import (
     create_device_reset,
     create_diagnostics,
     create_device_mode,
@@ -16,14 +16,12 @@ from encoding import (
     create_modbus_oneshot,
     create_modbus_periodic
 )
-
-from decoding import decode_response
+from wmb_protocol import decode_response
 
 
 EP_SRC_MAP = {
         "ping":   1,
         "stress-test":   1,
-        "modbus": 64,
         "ctrl":   200,
         "fota":   201,
         "mb-command": 64,
@@ -194,7 +192,8 @@ def main():
         elif (args.cmd_type == "fota"):
             assert False, "Not supported"
         elif (args.cmd_type == "mb-command"):
-            # Create a device reset command as an example
+            # TODO: Add support for different MB command types through command line arguments
+            # Currently only implements device reset as an example
             payload_coded = create_device_reset()
         elif (args.cmd_type == "stress-test"):
             payload = str()

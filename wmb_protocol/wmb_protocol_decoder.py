@@ -1,8 +1,16 @@
-import mb_protocol_pb2 as mb_protocol
-import mb_protocol_commands_pb2 as mb_commands
-import mb_protocol_enums_pb2 as mb_enums
+# Copyright (c) 2025 CTHINGS.CO
+# SPDX-License-Identifier: Apache-2.0
+"""
+WMB Protocol Decoder
+
+This module provides functions to decode and validate WMB protocol messages.
+It handles CRC verification and protobuf message parsing.
+""" 
+from . import mb_protocol_pb2 as mb_protocol
+from . import mb_protocol_commands_pb2 as mb_commands
+from . import mb_protocol_enums_pb2 as mb_enums
 from crccheck.crc import Crc16Dds110
-import mb_protocol_answers_pb2 as mb_answers
+from . import mb_protocol_answers_pb2 as mb_answers
 from typing import List, Optional, Tuple, Union
 
 def decode_response(frame: bytes) -> Tuple[bool, Optional[str], Optional[mb_protocol.MbMessage]]:

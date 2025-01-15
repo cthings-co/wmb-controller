@@ -1,6 +1,14 @@
-import mb_protocol_pb2 as mb_protocol
-import mb_protocol_commands_pb2 as mb_commands
-import mb_protocol_enums_pb2 as mb_enums
+# Copyright (c) 2025 CTHINGS.CO
+# SPDX-License-Identifier: Apache-2.0
+"""
+WMB Protocol Encoder
+
+This module provides functions to create WMB protocol messages.
+Each message includes a header, version, command payload, and CRC verification.
+""" 
+from . import mb_protocol_pb2 as mb_protocol
+from . import mb_protocol_commands_pb2 as mb_commands
+from . import mb_protocol_enums_pb2 as mb_enums
 from crccheck.crc import Crc16Dds110
 
 # Protocol constants
@@ -15,7 +23,7 @@ def create_message():
     return message
 
 def add_crc(data: bytes) -> bytes:
-    """Add CRC to serialized message"""
+    """Adds CRC to serialized message"""
     crcinst = Crc16Dds110()
     crcinst.process(data)
     crc = crcinst.final()
@@ -47,24 +55,26 @@ def create_diagnostics() -> bytes:
 
 def create_device_mode(mode: mb_enums.ModbusMode) -> bytes:
     """Creates device mode command"""
+    # Step 1: Create the base message
     message = create_message()
     message.cmd = mb_protocol.Cmd.CMD_DEV_MODE
     
-    # Step 1: Create the device mode frame
+    # Step 2: Create the device mode frame
     device_mode_frame = mb_commands.DeviceModeFrame()
     device_mode_frame.device_mode = mode
     
-    # Step 2: Create the command frame and attach device mode frame
+    # Step 3: Create the command frame and attach device mode frame
     cmd_frame = mb_commands.CmdFrame()
     cmd_frame.device_mode_frame.CopyFrom(device_mode_frame)
     
-    # Step 3: Attach the command frame to the message
+    # Step 4: Attach the command frame to the message
     message.payload.payload_cmd_frame.CopyFrom(cmd_frame)
     
-    # Step 4: Serialize and add CRC
+    # Step 5: Serialize and add CRC
     return add_crc(message.SerializeToString())
 
 def create_antenna_config(config: mb_enums.AntennaSettings) -> bytes:
+    """Creates antenna configuration command"""
     # Step 1: Create the base message
     message = create_message()  # This sets header and version
     message.cmd = mb_protocol.Cmd.CMD_ANTENA_CONFIG  # Set command type
@@ -138,7 +148,7 @@ def create_modbus_periodic(
     if not (1 <= config_index <= 64):
         raise ValueError("Config index must be between 1 and 64")
     if not (0 <= interval_seconds <= 2592000):
-        raise ValueError("Interval must be between 0 and 2592000 seconds")
+        raise ValueError("Interval must be between 0 seconds and 30 days expressed in seconds")
     if len(modbus_frame) > 256:
         raise ValueError("Modbus frame exceeds maximum size of 256 bytes")
     

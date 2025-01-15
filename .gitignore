@@ -162,6 +162,3 @@ cython_debug/
 
 *.csv
 access_token.secret
-
-# Protocol Buffers Generated Files
-#generated/
