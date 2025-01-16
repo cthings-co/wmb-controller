@@ -78,15 +78,59 @@ else:
 ## Available Commands
 The following commands are available through the wmb_protocol package:
 
-- `create_device_reset()` - Generate a device reset command
-- `create_diagnostics()` - Generate a diagnostics request command
-- `create_device_mode()` - Generate a device mode configuration command
-- `create_antenna_config()` - Generate an antenna configuration command
-- `create_baudrate_config()` - Generate a baudrate configuration command
-- `create_modbus_oneshot()` - Generate a one-shot Modbus command
-- `create_modbus_periodic()` - Generate a periodic Modbus command
-- `print_hex_bytes()` - Utility function to print byte data in hex format
-- `decode_response()` - Decode received protocol messages
+### Device Management Commands
+- `create_device_reset()`
+  - Generate a device reset command
+- `create_diagnostics()`
+  - Generate a diagnostics request command
+- `create_device_mode(mode: ModbusMode)`
+  - Generate a device mode configuration command
+  - Available modes:
+    - `MODBUS_MODE_MASTER` (0)
+    - `MODBUS_MODE_SNIFFER` (1)
+
+### Configuration Commands  
+- `create_antenna_config(config: AntennaSettings)`
+  - Generate an antenna configuration command
+  - Available settings:
+    - `ANTENNA_INTERNAL` (0)
+    - `ANTENNA_EXTERNAL` (1)
+
+- `create_baudrate_config(port: ModbusPort, baudrate: ModbusBaud)`
+  - Generate a baudrate configuration command
+  - Available ports:
+    - `MODBUS_PORT_ZERO` (1)
+    - `MODBUS_PORT_ONE` (2)
+  - Available baudrates:
+    - `MODBUS_BAUD_4800` (12)
+    - `MODBUS_BAUD_9600` (13)
+    - `MODBUS_BAUD_19200` (14) 
+    - `MODBUS_BAUD_28800` (15)
+    - `MODBUS_BAUD_38400` (16)
+    - `MODBUS_BAUD_57600` (17)
+    - `MODBUS_BAUD_76800` (18)
+    - `MODBUS_BAUD_115200` (19)
+
+### Modbus Commands
+- `create_modbus_oneshot(port: ModbusPort, modbus_frame: bytes)`
+  - Generate a one-shot Modbus command
+  - Available ports:
+    - `MODBUS_PORT_ZERO` (1)
+    - `MODBUS_PORT_ONE` (2)
+
+- `create_modbus_periodic(port: ModbusPort, config_index: int, interval_seconds: int, modbus_frame: bytes)`
+  - Generate a periodic Modbus command
+  - Available ports:
+    - `MODBUS_PORT_ZERO` (1)
+    - `MODBUS_PORT_ONE` (2)
+  - config_index: Value between 1-64 to identify the periodic configuration
+  - interval_seconds: Time between executions (0-2592000 seconds, max 30 days)
+
+### Utility Functions
+- `print_hex_bytes(bytes_data: bytes)`
+  - Print byte data in hex format
+- `decode_response(frame: bytes)` 
+  - Decode received protocol messages
 
 For detailed usage of each command, refer to the example.py file.
 
