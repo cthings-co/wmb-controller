@@ -164,4 +164,8 @@ cython_debug/
 access_token.secret
 
 # Protocol Buffers Generated Files
-#generated/
+generated
+
+# Bin/Hexes etc
+*.bin
+*.hex

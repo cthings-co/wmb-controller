@@ -1,2 +1,0 @@
-wmb.proto.mb_protocol.DiagnosticsAnsFrame.modbus_configurations max_count:64
-wmb.proto.mb_protocol.ModbusResponseFrame.modbus_frame max_size:256

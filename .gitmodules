@@ -1,0 +1,3 @@
+[submodule "wmb-proto"]
+	path = wmb-proto
+	url = https://github.com/cthings-co/wmb-proto.git
