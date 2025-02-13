@@ -290,9 +290,9 @@ class MBProto():
 
     @stop_bits.setter
     def stop_bits(self, value):
-        if (value == 0):
+        if (value == 1):
             value = mb_enums.PortStopBits.PORT_STOP_BITS_1
-        elif (value == 1):
+        elif (value == 2):
             value = mb_enums.PortStopBits.PORT_STOP_BITS_2
         else:
             raise ValueError("Unsupported stop bits value!")
