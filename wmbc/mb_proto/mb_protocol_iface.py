@@ -1,9 +1,15 @@
+import logging
+import json
 import wmbc.mb_proto.mb_protocol_pb2 as mb_protocol
 import wmbc.mb_proto.mb_protocol_commands_pb2 as mb_commands
 import wmbc.mb_proto.mb_protocol_enums_pb2 as mb_enums
 import wmbc.mb_proto.mb_protocol_answers_pb2 as mb_answers
+from google.protobuf.json_format import MessageToJson
 from crccheck.crc import Crc16Dds110
 from typing import List, Optional, Tuple, Union
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 class MBProto():
@@ -144,7 +150,7 @@ class MBProto():
         modbus_frame: bytes
     ) -> bytes:
         """Creates Modbus periodic command"""
-        if not (0 <= config_index <= 64):
+        if not (1 <= config_index <= 64):
             raise ValueError("Config index must be between 1 and 64")
         if not (0 <= interval_seconds <= 2592000):
             raise ValueError("Interval must be between 0 and 2592000 seconds")
@@ -210,6 +216,35 @@ class MBProto():
     
         except Exception as e:
             return False, f"Error parsing message: {str(e)}", None
+
+    def decode_modbus_p_config(self, value):
+        modp_cfg = dict()
+        modp_cfg["enable"] = ((value & 0xF0000000) != 0)
+        modp_cfg["port"] = ((value & 0xF000000) >> 24)
+        modp_cfg["interval"] = value & 0xFFFFFF
+        return modp_cfg
+
+    def print_decoded_msg(self, frame: bytes) -> None:
+        ret, err, msg = self.decode_response(frame)
+        if (not ret):
+            logging.error("Failed to decode frame!")
+            return
+        json_str = MessageToJson(msg, always_print_fields_with_no_presence=True, preserving_proto_field_name=True)
+        _dict = json.loads(json_str)
+        if (msg.cmd == mb_protocol.Cmd.CMD_MODBUS_ONE_SHOT or msg.cmd == mb_protocol.Cmd.CMD_MODBUS_PERIODICAL):
+            if (msg.payload.payload_answer_frame.ack_frame.acknowladge == 0):
+                # Swap ASCII to binary
+                data = msg.payload.payload_answer_frame.modbus_response_frame.modbus_frame
+                hex_list = [f"0x{byte:02x}" for byte in data]
+                _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = hex_list
+        if (msg.cmd == mb_protocol.Cmd.CMD_DIAGNOSTICS):
+            decoded_cfgs = list()
+            for idx, cfg in enumerate(_dict['payload']['payload_answer_frame']['diagnostics_ans_frame']['modbus_configurations']):
+                cfg = self.decode_modbus_p_config(cfg['configuration'])
+                cfg['id'] = idx + 1
+                decoded_cfgs.append(cfg)
+            _dict['payload']['payload_answer_frame']['diagnostics_ans_frame']['modbus_configurations'] = decoded_cfgs
+        logging.info(json.dumps(_dict, indent=2))
     
     @property
     def device_mode(self):
