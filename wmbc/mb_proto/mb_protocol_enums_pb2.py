@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17mb_protocol_enums.proto\x12\x15wmb.proto.mb_protocol*=\n\nModbusMode\x12\x16\n\x12MODBUS_MODE_MASTER\x10\x00\x12\x17\n\x13MODBUS_MODE_SNIFFER\x10\x01*=\n\x0f\x41ntennaSettings\x12\x14\n\x10\x41NTENNA_INTERNAL\x10\x00\x12\x14\n\x10\x41NTENNA_EXTERNAL\x10\x01*R\n\nModbusPort\x12\x19\n\x15MODBUS_PORT_UNDEFINED\x10\x00\x12\x14\n\x10MODBUS_PORT_ZERO\x10\x01\x12\x13\n\x0fMODBUS_PORT_ONE\x10\x02*\xca\x01\n\x08PortBaud\x12\x17\n\x13PORT_BAUD_UNDEFINED\x10\x00\x12\x12\n\x0ePORT_BAUD_4800\x10\x0c\x12\x12\n\x0ePORT_BAUD_9600\x10\r\x12\x13\n\x0fPORT_BAUD_19200\x10\x0e\x12\x13\n\x0fPORT_BAUD_28800\x10\x0f\x12\x13\n\x0fPORT_BAUD_38400\x10\x10\x12\x13\n\x0fPORT_BAUD_57600\x10\x11\x12\x13\n\x0fPORT_BAUD_76800\x10\x12\x12\x14\n\x10PORT_BAUD_115200\x10\x13*\x95\x01\n\nPortParity\x12\x19\n\x15PORT_PARITY_UNDEFINED\x10\x00\x12\x14\n\x10PORT_PARITY_NONE\x10\x01\x12\x13\n\x0fPORT_PARITY_ODD\x10\x02\x12\x14\n\x10PORT_PARITY_EVEN\x10\x03\x12\x14\n\x10PORT_PARITY_MARK\x10\x04\x12\x15\n\x11PORT_PARITY_SPACE\x10\x05*\x88\x01\n\x0cPortStopBits\x12\x1c\n\x18PORT_STOP_BITS_UNDEFINED\x10\x00\x12\x16\n\x12PORT_STOP_BITS_0_5\x10\x01\x12\x14\n\x10PORT_STOP_BITS_1\x10\x02\x12\x16\n\x12PORT_STOP_BITS_1_5\x10\x03\x12\x14\n\x10PORT_STOP_BITS_2\x10\x04\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17mb_protocol_enums.proto\x12\x15wmb.proto.mb_protocol*V\n\nModbusMode\x12\x17\n\x13MODBUS_MODE_UNKNOWN\x10\x00\x12\x16\n\x12MODBUS_MODE_MASTER\x10\x01\x12\x17\n\x13MODBUS_MODE_SNIFFER\x10\x02*R\n\x0f\x41ntennaSettings\x12\x13\n\x0f\x41NTENNA_UNKNOWN\x10\x00\x12\x14\n\x10\x41NTENNA_INTERNAL\x10\x01\x12\x14\n\x10\x41NTENNA_EXTERNAL\x10\x02*P\n\nModbusPort\x12\x17\n\x13MODBUS_PORT_UNKNOWN\x10\x00\x12\x14\n\x10MODBUS_PORT_ZERO\x10\x01\x12\x13\n\x0fMODBUS_PORT_ONE\x10\x02*\xc8\x01\n\x08PortBaud\x12\x15\n\x11PORT_BAUD_UNKNOWN\x10\x00\x12\x12\n\x0ePORT_BAUD_4800\x10\x0c\x12\x12\n\x0ePORT_BAUD_9600\x10\r\x12\x13\n\x0fPORT_BAUD_19200\x10\x0e\x12\x13\n\x0fPORT_BAUD_28800\x10\x0f\x12\x13\n\x0fPORT_BAUD_38400\x10\x10\x12\x13\n\x0fPORT_BAUD_57600\x10\x11\x12\x13\n\x0fPORT_BAUD_76800\x10\x12\x12\x14\n\x10PORT_BAUD_115200\x10\x13*\x93\x01\n\nPortParity\x12\x17\n\x13PORT_PARITY_UNKNOWN\x10\x00\x12\x14\n\x10PORT_PARITY_NONE\x10\x01\x12\x13\n\x0fPORT_PARITY_ODD\x10\x02\x12\x14\n\x10PORT_PARITY_EVEN\x10\x03\x12\x14\n\x10PORT_PARITY_MARK\x10\x04\x12\x15\n\x11PORT_PARITY_SPACE\x10\x05*\x86\x01\n\x0cPortStopBits\x12\x1a\n\x16PORT_STOP_BITS_UNKNOWN\x10\x00\x12\x16\n\x12PORT_STOP_BITS_0_5\x10\x01\x12\x14\n\x10PORT_STOP_BITS_1\x10\x02\x12\x16\n\x12PORT_STOP_BITS_1_5\x10\x03\x12\x14\n\x10PORT_STOP_BITS_2\x10\x04\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,15 +32,15 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'mb_protocol_enums_pb2', _gl
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_MODBUSMODE']._serialized_start=50
-  _globals['_MODBUSMODE']._serialized_end=111
-  _globals['_ANTENNASETTINGS']._serialized_start=113
-  _globals['_ANTENNASETTINGS']._serialized_end=174
-  _globals['_MODBUSPORT']._serialized_start=176
-  _globals['_MODBUSPORT']._serialized_end=258
-  _globals['_PORTBAUD']._serialized_start=261
-  _globals['_PORTBAUD']._serialized_end=463
-  _globals['_PORTPARITY']._serialized_start=466
-  _globals['_PORTPARITY']._serialized_end=615
-  _globals['_PORTSTOPBITS']._serialized_start=618
-  _globals['_PORTSTOPBITS']._serialized_end=754
+  _globals['_MODBUSMODE']._serialized_end=136
+  _globals['_ANTENNASETTINGS']._serialized_start=138
+  _globals['_ANTENNASETTINGS']._serialized_end=220
+  _globals['_MODBUSPORT']._serialized_start=222
+  _globals['_MODBUSPORT']._serialized_end=302
+  _globals['_PORTBAUD']._serialized_start=305
+  _globals['_PORTBAUD']._serialized_end=505
+  _globals['_PORTPARITY']._serialized_start=508
+  _globals['_PORTPARITY']._serialized_end=655
+  _globals['_PORTSTOPBITS']._serialized_start=658
+  _globals['_PORTSTOPBITS']._serialized_end=792
 # @@protoc_insertion_point(module_scope)

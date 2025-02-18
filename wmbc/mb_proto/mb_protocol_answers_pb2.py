@@ -25,25 +25,25 @@ _sym_db = _symbol_database.Default()
 import wmbc.mb_proto.mb_protocol_enums_pb2 as mb__protocol__enums__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19mb_protocol_answers.proto\x12\x15wmb.proto.mb_protocol\x1a\x17mb_protocol_enums.proto\"I\n\x08\x41\x63kFrame\x12\x37\n\x0b\x61\x63knowladge\x18\x02 \x01(\x0e\x32\".wmb.proto.mb_protocol.AcknowladgeJ\x04\x08\x01\x10\x02\"6\n\x17PeriodicalConfiguration\x12\x15\n\rconfiguration\x18\x02 \x01(\rJ\x04\x08\x01\x10\x02\"\xf9\x05\n\x13\x44iagnosticsAnsFrame\x12\x18\n\x10\x66irmware_version\x18\x02 \x01(\r\x12\x11\n\tdevice_id\x18\x03 \x01(\r\x12<\n\x0etransport_type\x18\x04 \x01(\x0e\x32$.wmb.proto.mb_protocol.TransportType\x12\x18\n\x10last_reset_cause\x18\x05 \x01(\r\x12\x1a\n\x12last_fault_address\x18\x07 \x01(\r\x12\x36\n\x0b\x64\x65vice_mode\x18\x08 \x01(\x0e\x32!.wmb.proto.mb_protocol.ModbusMode\x12@\n\x10\x61ntenna_settings\x18\t \x01(\x0e\x32&.wmb.proto.mb_protocol.AntennaSettings\x12\x0e\n\x06uptime\x18\n \x01(\r\x12\x34\n\x0b\x62\x61ud_port_0\x18\x0b \x01(\x0e\x32\x1f.wmb.proto.mb_protocol.PortBaud\x12\x34\n\x0b\x62\x61ud_port_1\x18\x0c \x01(\x0e\x32\x1f.wmb.proto.mb_protocol.PortBaud\x12\x38\n\rparity_port_0\x18\r \x01(\x0e\x32!.wmb.proto.mb_protocol.PortParity\x12\x38\n\rparity_port_1\x18\x0e \x01(\x0e\x32!.wmb.proto.mb_protocol.PortParity\x12=\n\x10stop_bits_port_0\x18\x0f \x01(\x0e\x32#.wmb.proto.mb_protocol.PortStopBits\x12=\n\x10stop_bits_port_1\x18\x10 \x01(\x0e\x32#.wmb.proto.mb_protocol.PortStopBits\x12M\n\x15modbus_configurations\x18\x11 \x03(\x0b\x32..wmb.proto.mb_protocol.PeriodicalConfigurationJ\x04\x08\x01\x10\x02J\x04\x08\x06\x10\x07\"\x86\x01\n\x13ModbusResponseFrame\x12\x36\n\x0bmodbus_port\x18\x02 \x01(\x0e\x32!.wmb.proto.mb_protocol.ModbusPort\x12\x1b\n\x13\x63onfiguration_index\x18\x03 \x01(\r\x12\x14\n\x0cmodbus_frame\x18\x04 \x01(\x0cJ\x04\x08\x01\x10\x02\"\xed\x01\n\x0b\x41nswerFrame\x12\x34\n\tack_frame\x18\x01 \x01(\x0b\x32\x1f.wmb.proto.mb_protocol.AckFrameH\x00\x12K\n\x15\x64iagnostics_ans_frame\x18\x02 \x01(\x0b\x32*.wmb.proto.mb_protocol.DiagnosticsAnsFrameH\x00\x12K\n\x15modbus_response_frame\x18\x03 \x01(\x0b\x32*.wmb.proto.mb_protocol.ModbusResponseFrameH\x00\x42\x0e\n\x0c\x61nswer_frame*R\n\x0b\x41\x63knowladge\x12\x17\n\x13\x41\x43KNOWLADGE_UNKNOWN\x10\x00\x12\x14\n\x0f\x41\x43KNOWLADGE_ACK\x10\xaa\x01\x12\x14\n\x10\x41\x43KNOWLADGE_NACK\x10w*G\n\rTransportType\x12\x1a\n\x16TRANSPORT_TYPE_UNKNOWN\x10\x00\x12\x1a\n\x16TRANSPORT_TYPE_WIREPAS\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19mb_protocol_answers.proto\x12\x15wmb.proto.mb_protocol\x1a\x17mb_protocol_enums.proto\"C\n\x08\x41\x63kFrame\x12\x37\n\x0b\x61\x63knowladge\x18\x01 \x01(\x0e\x32\".wmb.proto.mb_protocol.Acknowladge\"0\n\x17PeriodicalConfiguration\x12\x15\n\rconfiguration\x18\x01 \x01(\r\"\xed\x05\n\x13\x44iagnosticsAnsFrame\x12\x18\n\x10\x66irmware_version\x18\x01 \x01(\r\x12\x11\n\tdevice_id\x18\x02 \x01(\r\x12<\n\x0etransport_type\x18\x03 \x01(\x0e\x32$.wmb.proto.mb_protocol.TransportType\x12\x18\n\x10last_reset_cause\x18\x04 \x01(\r\x12\x1a\n\x12last_fault_address\x18\x05 \x01(\r\x12\x36\n\x0b\x64\x65vice_mode\x18\x06 \x01(\x0e\x32!.wmb.proto.mb_protocol.ModbusMode\x12@\n\x10\x61ntenna_settings\x18\x07 \x01(\x0e\x32&.wmb.proto.mb_protocol.AntennaSettings\x12\x0e\n\x06uptime\x18\x08 \x01(\r\x12\x34\n\x0b\x62\x61ud_port_0\x18\t \x01(\x0e\x32\x1f.wmb.proto.mb_protocol.PortBaud\x12\x34\n\x0b\x62\x61ud_port_1\x18\n \x01(\x0e\x32\x1f.wmb.proto.mb_protocol.PortBaud\x12\x38\n\rparity_port_0\x18\x0b \x01(\x0e\x32!.wmb.proto.mb_protocol.PortParity\x12\x38\n\rparity_port_1\x18\x0c \x01(\x0e\x32!.wmb.proto.mb_protocol.PortParity\x12=\n\x10stop_bits_port_0\x18\r \x01(\x0e\x32#.wmb.proto.mb_protocol.PortStopBits\x12=\n\x10stop_bits_port_1\x18\x0e \x01(\x0e\x32#.wmb.proto.mb_protocol.PortStopBits\x12M\n\x15modbus_configurations\x18\x0f \x03(\x0b\x32..wmb.proto.mb_protocol.PeriodicalConfiguration\"\x80\x01\n\x13ModbusResponseFrame\x12\x36\n\x0bmodbus_port\x18\x01 \x01(\x0e\x32!.wmb.proto.mb_protocol.ModbusPort\x12\x1b\n\x13\x63onfiguration_index\x18\x02 \x01(\r\x12\x14\n\x0cmodbus_frame\x18\x03 \x01(\x0c\"\xed\x01\n\x0b\x41nswerFrame\x12\x34\n\tack_frame\x18\x01 \x01(\x0b\x32\x1f.wmb.proto.mb_protocol.AckFrameH\x00\x12K\n\x15\x64iagnostics_ans_frame\x18\x02 \x01(\x0b\x32*.wmb.proto.mb_protocol.DiagnosticsAnsFrameH\x00\x12K\n\x15modbus_response_frame\x18\x03 \x01(\x0b\x32*.wmb.proto.mb_protocol.ModbusResponseFrameH\x00\x42\x0e\n\x0c\x61nswer_frame*R\n\x0b\x41\x63knowladge\x12\x17\n\x13\x41\x43KNOWLADGE_UNKNOWN\x10\x00\x12\x14\n\x0f\x41\x43KNOWLADGE_ACK\x10\xaa\x01\x12\x14\n\x10\x41\x43KNOWLADGE_NACK\x10w*G\n\rTransportType\x12\x1a\n\x16TRANSPORT_TYPE_UNKNOWN\x10\x00\x12\x1a\n\x16TRANSPORT_TYPE_WIREPAS\x10\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'mb_protocol_answers_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_ACKNOWLADGE']._serialized_start=1349
-  _globals['_ACKNOWLADGE']._serialized_end=1431
-  _globals['_TRANSPORTTYPE']._serialized_start=1433
-  _globals['_TRANSPORTTYPE']._serialized_end=1504
+  _globals['_ACKNOWLADGE']._serialized_start=1319
+  _globals['_ACKNOWLADGE']._serialized_end=1401
+  _globals['_TRANSPORTTYPE']._serialized_start=1403
+  _globals['_TRANSPORTTYPE']._serialized_end=1474
   _globals['_ACKFRAME']._serialized_start=77
-  _globals['_ACKFRAME']._serialized_end=150
-  _globals['_PERIODICALCONFIGURATION']._serialized_start=152
-  _globals['_PERIODICALCONFIGURATION']._serialized_end=206
-  _globals['_DIAGNOSTICSANSFRAME']._serialized_start=209
-  _globals['_DIAGNOSTICSANSFRAME']._serialized_end=970
-  _globals['_MODBUSRESPONSEFRAME']._serialized_start=973
-  _globals['_MODBUSRESPONSEFRAME']._serialized_end=1107
-  _globals['_ANSWERFRAME']._serialized_start=1110
-  _globals['_ANSWERFRAME']._serialized_end=1347
+  _globals['_ACKFRAME']._serialized_end=144
+  _globals['_PERIODICALCONFIGURATION']._serialized_start=146
+  _globals['_PERIODICALCONFIGURATION']._serialized_end=194
+  _globals['_DIAGNOSTICSANSFRAME']._serialized_start=197
+  _globals['_DIAGNOSTICSANSFRAME']._serialized_end=946
+  _globals['_MODBUSRESPONSEFRAME']._serialized_start=949
+  _globals['_MODBUSRESPONSEFRAME']._serialized_end=1077
+  _globals['_ANSWERFRAME']._serialized_start=1080
+  _globals['_ANSWERFRAME']._serialized_end=1317
 # @@protoc_insertion_point(module_scope)
