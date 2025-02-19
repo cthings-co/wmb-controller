@@ -38,6 +38,7 @@ class WMBController():
         self._target_port = kwargs.get("target_port")
         self._port_cfg = kwargs.get("port_cfg")
         self._modbus_file = kwargs.get("modbus_file")
+        self._modbus_frame = kwargs.get("modbus_frame")
         self._modbus_interval = kwargs.get("modbus_interval")
         self._modbus_cfg_idx = kwargs.get("modbus_cfg_idx")
         self._polling_only = self._cmd_type is None
@@ -65,26 +66,46 @@ class WMBController():
             self._mbproto.stop_bits = int(self._port_cfg[2])
             self._payload_coded = self._mbproto.create_port_config()
         elif self._cmd_type == "modbus_1s":
-            try:
-                with open(self._modbus_file, 'rb') as f:
-                    self._payload_coded = f.read()
-            except FileNotFoundError:
-                raise FileNotFoundError(f"File {self._modbus_file} does not exist!")
-            except Exception as e:
-                raise e(f"Unhandled exception")
-            self._mbproto.target_port = self._target_port
-            self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
+            if (self._modbus_file is not None and self._modbus_frame is not None):
+                raise ValueError("Both file and frame defined as payload")
+            elif (self._modbus_file is not None or self._modbus_frame is not None):
+                if (self._modbus_file is not None):
+                    try:
+                        with open(self._modbus_file, 'rb') as f:
+                            self._payload_coded = f.read()
+                    except FileNotFoundError:
+                        raise FileNotFoundError(f"File {self._modbus_file} does not exist!")
+                    except Exception as e:
+                        raise e(f"Unhandled exception")
+                    self._mbproto.target_port = self._target_port
+                    self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
+                else:
+                    self._payload_coded = self._modbus_frame
+                    self._mbproto.target_port = self._target_port
+                    self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
+            else:
+                raise ValueError("No Modbus Payload!")
         elif self._cmd_type == "modbus_p":
-            try:
-                with open(self._modbus_file, 'rb') as f:
-                    self._payload_coded = f.read()
-            except FileNotFoundError:
-                raise FileNotFoundError(f"File {self._modbus_file} does not exist!")
-            except Exception as e:
-                raise e(f"Unhandled exception")
-            self._mbproto.target_port = self._target_port
-            self._payload_coded = self._mbproto.create_modbus_periodic(self._modbus_cfg_idx, self._modbus_interval,
-                                                                       self._payload_coded)
+            if (self._modbus_file is not None and self._modbus_frame is not None):
+                raise ValueError("Both file and frame defined as payload")
+            elif (self._modbus_file is not None or self._modbus_frame is not None):
+                if (self._modbus_file is not None):
+                    try:
+                        with open(self._modbus_file, 'rb') as f:
+                            self._payload_coded = f.read()
+                    except FileNotFoundError:
+                        raise FileNotFoundError(f"File {self._modbus_file} does not exist!")
+                    except Exception as e:
+                        raise e(f"Unhandled exception")
+                    self._mbproto.target_port = self._target_port
+                    self._payload_coded = self._mbproto.create_modbus_periodic(self._modbus_cfg_idx, self._modbus_interval,
+                                                                               self._payload_coded)
+                else:
+                    self._payload_coded = self._modbus_frame
+                    self._mbproto.target_port = self._target_port
+                    self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
+            else:
+                raise ValueError("No Modbus Payload!")
         elif self._cmd_type != "scan":
             raise ValueError("Unsupported command type!")
 
