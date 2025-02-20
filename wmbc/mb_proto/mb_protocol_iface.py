@@ -8,6 +8,8 @@ from google.protobuf.json_format import MessageToJson
 from crccheck.crc import Crc16Dds110
 from typing import List, Optional, Tuple, Union
 
+from pymodbus.client import ModbusFrameGenerator
+from pymodbus.framer import FramerType
 
 logging.basicConfig(level=logging.INFO)
 
@@ -217,6 +219,21 @@ class MBProto():
         except Exception as e:
             return False, f"Error parsing message: {str(e)}", None
 
+    def decode_modbus_frame(self, frame: bytes) -> dict:
+        generator = ModbusFrameGenerator()
+        decoded_frame = generator.parse_response(frame)
+        parameters = {}
+        parameters['dev_id'] = decoded_frame.dev_id
+        parameters['transaction_id'] = decoded_frame.transaction_id
+        parameters['address'] = decoded_frame.address
+        parameters['count'] = decoded_frame.count
+        parameters['bits'] = decoded_frame.bits
+        parameters['registers'] = decoded_frame.registers
+        parameters['status'] = decoded_frame.status
+        result = {}
+        result[decoded_frame.__class__.__name__] = parameters
+        return result
+
     def decode_modbus_p_config(self, value):
         modp_cfg = dict()
         modp_cfg["enable"] = ((value & 0xF0000000) != 0)
@@ -224,7 +241,7 @@ class MBProto():
         modp_cfg["interval"] = value & 0xFFFFFF
         return modp_cfg
 
-    def print_decoded_msg(self, frame: bytes) -> None:
+    def print_decoded_msg(self, frame: bytes,  _callback = None, decode_mofbus_frame=True) -> None:
         ret, err, msg = self.decode_response(frame)
         if (not ret):
             logging.error("Failed to decode frame!")
@@ -235,8 +252,13 @@ class MBProto():
             if (msg.payload.payload_answer_frame.ack_frame.acknowladge == 0):
                 # Swap ASCII to binary
                 data = msg.payload.payload_answer_frame.modbus_response_frame.modbus_frame
-                hex_list = [f"0x{byte:02x}" for byte in data]
-                _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = hex_list
+                if decode_mofbus_frame:
+                    modbus_frame = self.decode_modbus_frame(data)
+                    _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = modbus_frame
+                else:
+                    hex_list = [f"0x{byte:02x}" for byte in data]
+                    _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = hex_list
+
         if (msg.cmd == mb_protocol.Cmd.CMD_DIAGNOSTICS):
             decoded_cfgs = list()
             for idx, cfg in enumerate(_dict['payload']['payload_answer_frame']['diagnostics_ans_frame']['modbus_configurations']):
@@ -244,8 +266,11 @@ class MBProto():
                 cfg['id'] = idx + 1
                 decoded_cfgs.append(cfg)
             _dict['payload']['payload_answer_frame']['diagnostics_ans_frame']['modbus_configurations'] = decoded_cfgs
-        logging.info(json.dumps(_dict, indent=2))
-    
+        if _callback == None:
+            logging.info(json.dumps(_dict, indent=2))
+        else:
+           _callback(_dict)
+        
     @property
     def device_mode(self):
         return self._device_mode
@@ -348,3 +373,6 @@ class MBProto():
         else:
             raise ValueError("Unsupported parity bit value!")
         self._parity_bit = value
+
+
+

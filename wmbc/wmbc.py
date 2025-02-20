@@ -141,3 +141,14 @@ class WMBController():
         while True:
             response = await self._client.async_receive()
             self._mbproto.print_decoded_msg(response.payload)
+
+    async def run_periodically(self, period=10, _callback = None):
+        logging.info("Entering infinite polling, press Ctrl+C to exit")
+        while True:
+            if self._cmd_type == "scan":
+                self.scan_network()
+            elif self._cmd_type is not None:
+                self.send_command()
+            response = await self._client.async_receive()
+            self._mbproto.print_decoded_msg(response.payload, _callback)
+            await asyncio.sleep(period)
