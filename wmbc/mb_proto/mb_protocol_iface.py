@@ -241,10 +241,10 @@ class MBProto():
         modp_cfg["interval"] = value & 0xFFFFFF
         return modp_cfg
 
-    def print_decoded_msg(self, frame: bytes,  _callback = None, decode_mofbus_frame=True) -> None:
+    def print_decoded_msg(self, frame: bytes, decode_modbus_frame=True) -> None:
         ret, err, msg = self.decode_response(frame)
         if (not ret):
-            logging.error("Failed to decode frame!")
+            logging.error("Failed to decode frame!:%s", err)
             return
         json_str = MessageToJson(msg, always_print_fields_with_no_presence=True, preserving_proto_field_name=True)
         _dict = json.loads(json_str)
@@ -252,7 +252,7 @@ class MBProto():
             if (msg.payload.payload_answer_frame.ack_frame.acknowladge == 0):
                 # Swap ASCII to binary
                 data = msg.payload.payload_answer_frame.modbus_response_frame.modbus_frame
-                if decode_mofbus_frame:
+                if decode_modbus_frame:
                     modbus_frame = self.decode_modbus_frame(data)
                     _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = modbus_frame
                 else:
@@ -266,11 +266,8 @@ class MBProto():
                 cfg['id'] = idx + 1
                 decoded_cfgs.append(cfg)
             _dict['payload']['payload_answer_frame']['diagnostics_ans_frame']['modbus_configurations'] = decoded_cfgs
-        if _callback == None:
-            logging.info(json.dumps(_dict, indent=2))
-        else:
-           _callback(_dict)
-        
+        logging.info(json.dumps(_dict, indent=2))
+
     @property
     def device_mode(self):
         return self._device_mode
@@ -373,6 +370,3 @@ class MBProto():
         else:
             raise ValueError("Unsupported parity bit value!")
         self._parity_bit = value
-
-
-

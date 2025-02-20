@@ -150,5 +150,10 @@ class WMBController():
             elif self._cmd_type is not None:
                 self.send_command()
             response = await self._client.async_receive()
-            self._mbproto.print_decoded_msg(response.payload, _callback)
+            ret, err, msg = self._mbproto.decode_response(response.payload)
+            if (not ret):
+                logging.error("Failed to decode frame!: %s", err)
+            else:
+                if _callback != None:
+                    _callback(msg)
             await asyncio.sleep(period)
