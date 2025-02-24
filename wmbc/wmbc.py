@@ -142,7 +142,7 @@ class WMBController():
             response = await self._client.async_receive()
             self._mbproto.print_decoded_msg(response.payload)
 
-    async def run_periodically(self, period=10, _callback = None):
+    async def run_periodically(self, period=10, _callback = None, callback_args=None):
         logging.info("Entering infinite polling, press Ctrl+C to exit")
         while True:
             if self._cmd_type == "scan":
@@ -155,5 +155,5 @@ class WMBController():
                 logging.error("Failed to decode frame!: %s", err)
             else:
                 if _callback != None:
-                    _callback(msg)
+                    _callback(msg, callback_args)
             await asyncio.sleep(period)
