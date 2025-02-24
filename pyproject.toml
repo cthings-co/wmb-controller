@@ -1,14 +1,19 @@
-[tool.poetry]
+[project]
 name = "wmbc"
 version = "0.1.0"
-description = ""
-authors = ["Jan Kowalewski <jkowalewski@cthings.co>"]
-license = "Apache-2.0"
+description = "Wireless Modbus Bridge Controller"
+authors = [
+    {name="Jan Kowalewski", email="<jkowalewski@cthings.co>"}
+]
+license = {text = "Apache-2.0"}
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.11.2"
+requires-python = ">=3.11"
+dependencies = [
+    "wsctrl (>=0.1.0)",
+    "crccheck (>=1.3.0)",
+    "pyserial (>=3.5)"
+]
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
