@@ -9,6 +9,8 @@ from pymodbus.client import ModbusFrameGenerator
 from pymodbus.framer import FramerType
 from wmbc.wmbc import WMBController
 
+logging.basicConfig(level=logging.INFO)
+
 def print_answer(msg: mb_protocol.MbMessage, voltage_range: list) -> None:
     _mbproto = MBProto()
     _json_str = MessageToJson(msg, always_print_fields_with_no_presence=True, preserving_proto_field_name=True)
@@ -28,7 +30,7 @@ async def main():
     parser = argparse.ArgumentParser(description='Inferix WIN-IO-4AIM demo for WMB Controller - reads AI voltage values over Wirepas \
         (assumes the Sink is preconfigured with correct Network Address and Channel).')
     parser.add_argument(
-        '--wirepas-addr',
+        '--dst-addr',
         required=False,
         type=int,
         default=2,
@@ -55,7 +57,7 @@ async def main():
             nargs=4,
             type=int,
             choices=[5, 10],
-            default={10, 10, 10, 10},
+            default=[10, 10, 10, 10],
             help='Voltage range of AIs'
     )
     parser.add_argument(
@@ -67,12 +69,15 @@ async def main():
 
     args = parser.parse_args()
     args_dict = vars(args)
-    logging.info(args_dict)
+
     generator = ModbusFrameGenerator(framer=FramerType.RTU, slave=args_dict.get('modbus_addr'))
     read_regs_frame = generator.read_holding_registers(address=0, count=4)
-    logging.info(read_regs_frame)
-    WMBC = WMBController(dst_addr=args_dict.get('wirepas_addr'), cmd="modbus_1s", target_port=args_dict.get('target_port'), modbus_frame=read_regs_frame)
+
+    args_dict.update({'cmd':"modbus_1s", 'modbus_frame':read_regs_frame})
+
+    WMBC = WMBController(**args_dict)
     WMBC.initialize_sink()
     await WMBC.run_periodically(args_dict.get('period'), _callback = print_answer, callback_args=args_dict.get('volt_range'))
+
 if __name__ == "__main__":
     asyncio.run(main())
