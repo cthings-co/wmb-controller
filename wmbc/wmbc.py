@@ -42,7 +42,7 @@ class WMBController():
         self._modbus_interval = kwargs.get("modbus_interval")
         self._modbus_cfg_idx = kwargs.get("modbus_cfg_idx")
         self._polling_only = self._cmd_type is None
-        if (self._cmd_type != "scan" and self._cmd_type is not None):
+        if (self._cmd_type is not None):
             assert self._dst_addr > 0, "Destination address cannot be 0!"
             self._client = SinkController(self._dst_addr & 0xFFFFFFFF, self.MB_PROTO_SRC_EP, self.MB_PROTO_DST_EP)
         else:
@@ -106,7 +106,7 @@ class WMBController():
                     self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
             else:
                 raise ValueError("No Modbus Payload!")
-        elif self._cmd_type != "scan":
+        else:
             raise ValueError("Unsupported command type!")
 
     def _stop_sinks(self):
@@ -119,12 +119,6 @@ class WMBController():
         if self._client and self._payload_coded:
             self._client.send(self._payload_coded)
 
-    def scan_network(self):
-        if self._client:
-            self._client.scan_network()
-        else:
-            logging.warning("Cannot scan network. SinkController not initialized!")
-
     def initialize_sink(self):
         self._start_sinks()
 
@@ -132,28 +126,31 @@ class WMBController():
         self._stop_sinks()
 
     async def run(self):
-        if self._cmd_type == "scan":
-            self.scan_network()
-        elif self._cmd_type is not None:
+        if self._cmd_type is not None:
             self.send_command()
-
         logging.info("Entering infinite polling, press Ctrl+C to exit")
         while True:
             response = await self._client.async_receive()
             self._mbproto.print_decoded_msg(response.payload)
 
-    async def run_periodically(self, period=10, _callback = None, callback_args=None):
-        logging.info("Entering infinite polling, press Ctrl+C to exit")
+    async def run_periodically(self, period=10, timeout=5, _callback=None, callback_args=None, print_default=False):
+        if self._cmd_type is None:
+            raise ValueError("Command not defined!")
+        logging.info("Entering periodical command send with polling, press Ctrl+C to exit")
         while True:
-            if self._cmd_type == "scan":
-                self.scan_network()
-            elif self._cmd_type is not None:
-                self.send_command()
-            response = await self._client.async_receive()
+            self.send_command()
+            try:
+                response = await asyncio.wait_for(self._client.async_receive(), timeout=timeout)
+            except asyncio.TimeoutError:
+                logging.warning("No response from the device!")
+                await asyncio.sleep(period)
+                continue
             ret, err, msg = self._mbproto.decode_response(response.payload)
             if (not ret):
                 logging.error("Failed to decode frame!: %s", err)
             else:
                 if _callback != None:
                     _callback(msg, callback_args)
+                elif print_default:
+                    self._mbproto.print_decoded_msg(response.payload)
             await asyncio.sleep(period)
