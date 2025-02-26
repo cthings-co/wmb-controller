@@ -20,11 +20,11 @@ def print_answer(msg: mb_protocol.MbMessage, voltage_range: list) -> None:
             data = msg.payload.payload_answer_frame.modbus_response_frame.modbus_frame
             modbus_frame = _mbproto.decode_modbus_frame(data)
             _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = modbus_frame
-
-    if 'ReadHoldingRegistersResponse' in _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame']:
-        ai_regs = _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame']['ReadHoldingRegistersResponse']['registers']
-        for iter in range(4):
-            logging.info("AI %d is: %f V",iter+1, (ai_regs[iter]*voltage_range[iter])/(2 ** 10))
+    if 'modbus_response_frame' in _dict['payload']['payload_answer_frame']:
+        if 'ReadHoldingRegistersResponse' in _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame']:
+            ai_regs = _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame']['ReadHoldingRegistersResponse']['registers']
+            for iter in range(4):
+                logging.info("AI %d is: %f V",iter+1, (ai_regs[iter]*voltage_range[iter])/(2 ** 10))
 
 async def main():
     parser = argparse.ArgumentParser(description='Inferix WIN-IO-4AIM demo for WMB Controller - reads AI voltage values over Wirepas \
