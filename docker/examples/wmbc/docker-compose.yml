@@ -1,0 +1,18 @@
+# Example docker compose to run WMBC on pre-deployed Wirepas composition
+services:
+  wmbc-service:
+    # For now we assume the image is locally built with a name "wmbc-runner"
+    image: wmbc-runner
+    container_name: wmbc-service
+    # This can be replaced with custom software which uses WMBC underneath
+    command: python3 -m wmbc --cmd diag --dst-addr 21
+    volumes:
+      - wirepas_dbus-volume:/var/run/dbus
+    logging:
+      driver: journald
+
+volumes:
+  wirepas_dbus-volume:
+    external: true
+    # Check with "docker volume ls" if the name matches
+    name: wirepas_dbus-volume

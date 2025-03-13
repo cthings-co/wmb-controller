@@ -1,0 +1,26 @@
+# Example docker compose to run FOTA on pre-deployed Wirepas composition
+services:
+  wmbc-service:
+    # For now we assume the image is locally built with a name "wmbc-runner"
+    image: wmbc-runner
+    container_name: wmbc-service
+    environment:
+      # Configure this part according to your setup
+      WMB_ADDRESS: 21
+      # Change a file name if needed
+      WMB_IMAGE: /var/tmp/firmwares/firmware_ct_wmb_1.0.0_fota.bin
+    # fota.py script is part of wmb-controller repository copied over to the Docker image
+    # for now it is placed in /home/ct
+    command: python3 /home/ct/fota.py
+    volumes:
+      - wirepas_dbus-volume:/var/run/dbus
+      # Place given FOTA binary in /var/tmp/firmwares on host/GW machine
+      - /var/tmp/firmwares:/var/tmp/firmwares
+    logging:
+      driver: journald
+
+volumes:
+  wirepas_dbus-volume:
+    external: true
+    # Check with "docker volume ls" if the name matches
+    name: wirepas_dbus-volume
