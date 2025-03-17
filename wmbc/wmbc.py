@@ -43,6 +43,9 @@ class WMBController():
         self._modbus_interval = kwargs.get("modbus_interval")
         self._modbus_cfg_idx = kwargs.get("modbus_cfg_idx")
         self._polling_only = self._cmd_type is None
+        # Provide default sink_ids if not provided in init
+        if (self._sink_ids is None):
+            self._sink_ids = ["sink0", "sink1"]
         if (self._cmd_type is not None):
             assert self._dst_addr > 0, "Destination address cannot be 0!"
             self._client = SinkController(self._dst_addr & 0xFFFFFFFF, self.MB_PROTO_SRC_EP, self.MB_PROTO_DST_EP, sink_ids=self._sink_ids)
