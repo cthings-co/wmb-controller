@@ -33,7 +33,7 @@ async def main():
         '--dst-addr',
         required=False,
         type=int,
-        default=2,
+        default=21,
         help='Wirepas destination address'
     )
     parser.add_argument(
@@ -47,9 +47,9 @@ async def main():
             '--target-port',
             required=False,
             type=int,
-            choices=[0, 1],
+            choices=[1, 2],
             default=1,
-            help='Target port: 0 - Port 0, 1 - Port 1'
+            help='Target port: 1 - Port 1, 2 - Port 2'
     )
     parser.add_argument(
             '--volt-range',
