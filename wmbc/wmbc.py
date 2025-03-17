@@ -31,6 +31,7 @@ class WMBController():
     def __init__(self, **kwargs):
 
         logging.info("Starting WMB Controller")
+        self._sink_ids = kwargs.get("sink_ids")
         self._cmd_type = kwargs.get("cmd")
         self._dst_addr = kwargs.get("dst_addr")
         self._dev_mode = kwargs.get("dev_mode")
@@ -44,9 +45,9 @@ class WMBController():
         self._polling_only = self._cmd_type is None
         if (self._cmd_type is not None):
             assert self._dst_addr > 0, "Destination address cannot be 0!"
-            self._client = SinkController(self._dst_addr & 0xFFFFFFFF, self.MB_PROTO_SRC_EP, self.MB_PROTO_DST_EP)
+            self._client = SinkController(self._dst_addr & 0xFFFFFFFF, self.MB_PROTO_SRC_EP, self.MB_PROTO_DST_EP, sink_ids=self._sink_ids)
         else:
-            self._client = SinkController(self._dst_addr, pm=True)
+            self._client = SinkController(self._dst_addr, pm=True, sink_ids=self._sink_ids)
 
         self._mbproto = MBProto()
         if self._cmd_type == "reset":
