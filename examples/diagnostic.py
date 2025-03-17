@@ -15,7 +15,7 @@ async def main():
         '--dst-addr',
         required=False,
         type=int,
-        default=2,
+        default=21,
         help='Wirepas destination address'
     )
     parser.add_argument(

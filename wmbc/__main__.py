@@ -13,7 +13,7 @@ async def main():
         '--dst-addr',
         required=False,
         type=int,
-        default=0,
+        default=21,
         help='Destination address'
     )
     parser.add_argument(
@@ -41,8 +41,8 @@ async def main():
             '--target-port',
             required=False,
             type=int,
-            choices=[0, 1],
-            help='Target port: 0 - Port 0, 1 - Port 1; Use it with port-cfg or modbus commands'
+            choices=[1, 2],
+            help='Target port: 1 - Port 1 (Channel 1), 2 - Port 2 (Channel 2); Use it with port-cfg or modbus commands'
     )
     parser.add_argument(
             '--port-cfg',

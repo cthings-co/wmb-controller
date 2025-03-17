@@ -302,9 +302,11 @@ class MBProto():
 
     @target_port.setter
     def target_port(self, value):
-        if (value == 0):
+        # PORT_ZERO -> Port 1 (Channel 1)
+        if (value == 1):
             value = mb_enums.MODBUS_PORT_ZERO
-        elif (value == 1):
+        # PORT_ONE -> Port 2 (Channel 2)
+        elif (value == 2):
             value = mb_enums.MODBUS_PORT_ONE
         else:
             raise ValueError("Unsupported port index!")
