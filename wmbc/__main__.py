@@ -20,7 +20,7 @@ async def main():
         '--cmd',
         required=False,
         type=str,
-        choices=['scan', 'reset', 'diag', 'dev_mode', 'ant_cfg', 'port_cfg', 'modbus_1s', 'modbus_p'],
+        choices=['reset', 'diag', 'dev_mode', 'ant_cfg', 'port_cfg', 'modbus_1s', 'modbus_p'],
         help='Command Types'
     )
     parser.add_argument(
