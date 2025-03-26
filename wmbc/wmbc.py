@@ -43,6 +43,8 @@ class WMBController():
         self._modbus_interval = kwargs.get("modbus_interval")
         self._modbus_cfg_idx = kwargs.get("modbus_cfg_idx")
         self._polling_only = self._cmd_type is None
+
+        self._mbproto = MBProto()
         # Provide default sink_ids if not provided in init
         if (self._sink_ids is None):
             self._sink_ids = ["sink0", "sink1"]
@@ -51,8 +53,8 @@ class WMBController():
             self._client = SinkController(self._dst_addr & 0xFFFFFFFF, self.MB_PROTO_SRC_EP, self.MB_PROTO_DST_EP, sink_ids=self._sink_ids)
         else:
             self._client = SinkController(self._dst_addr, pm=True, sink_ids=self._sink_ids)
+            return
 
-        self._mbproto = MBProto()
         if self._cmd_type == "reset":
             self._payload_coded = self._mbproto.create_device_reset()
         elif self._cmd_type == "diag":
@@ -136,6 +138,7 @@ class WMBController():
             logging.info("Entering infinite polling, press Ctrl+C to exit")
         while True:
             response = await self._client.async_receive()
+            logging.info(f"Got message from: {response.src}")
             self._mbproto.print_decoded_msg(response.payload)
             if quit:
                 return
@@ -159,5 +162,6 @@ class WMBController():
                 else:
                     _callback(msg, callback_args)
             elif print_default:
+                logging.info(f"Got message from: {response.src}")
                 self._mbproto.print_decoded_msg(response.payload, decode_modbus_frame=False)
             await asyncio.sleep(period)
