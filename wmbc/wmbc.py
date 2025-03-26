@@ -129,13 +129,16 @@ class WMBController():
     def deinitialize_sink(self):
         self._stop_sinks()
 
-    async def run(self):
+    async def run(self, quit=False):
         if self._cmd_type is not None:
             self.send_command()
-        logging.info("Entering infinite polling, press Ctrl+C to exit")
+        if not quit:
+            logging.info("Entering infinite polling, press Ctrl+C to exit")
         while True:
             response = await self._client.async_receive()
             self._mbproto.print_decoded_msg(response.payload)
+            if quit:
+                return
 
     async def run_periodically(self, period=10, timeout=5, _callback=None, callback_args=None, print_default=False):
         if self._cmd_type is None:
@@ -149,12 +152,12 @@ class WMBController():
                 logging.warning("No response from the device!")
                 await asyncio.sleep(period)
                 continue
-            ret, err, msg = self._mbproto.decode_response(response.payload)
-            if (not ret):
-                logging.error("Failed to decode frame!: %s", err)
-            else:
-                if _callback != None:
+            if _callback != None:
+                ret, err, msg = self._mbproto.decode_response(response.payload)
+                if (not ret):
+                    logging.error("Failed to decode frame!: %s", err)
+                else:
                     _callback(msg, callback_args)
-                elif print_default:
-                    self._mbproto.print_decoded_msg(response.payload)
+            elif print_default:
+                self._mbproto.print_decoded_msg(response.payload, decode_modbus_frame=False)
             await asyncio.sleep(period)
