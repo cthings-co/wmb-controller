@@ -221,7 +221,10 @@ class MBProto():
 
     def decode_modbus_frame(self, frame: bytes) -> dict:
         generator = ModbusFrameGenerator()
-        decoded_frame = generator.parse_response(frame)
+        try:
+            decoded_frame = generator.parse_response(frame)
+        except Exception as e:
+            raise ValueError(e)
         parameters = {}
         parameters['dev_id'] = decoded_frame.dev_id
         parameters['transaction_id'] = decoded_frame.transaction_id
@@ -253,8 +256,14 @@ class MBProto():
                 # Swap ASCII to binary
                 data = msg.payload.payload_answer_frame.modbus_response_frame.modbus_frame
                 if decode_modbus_frame:
-                    modbus_frame = self.decode_modbus_frame(data)
-                    _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = modbus_frame
+                    try:
+                        modbus_frame = self.decode_modbus_frame(data)
+                    except Exception as e:
+                        logging.error("Faild to decode Modbus Frame")
+                        hex_list = [f"0x{byte:02x}" for byte in data]
+                        _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = hex_list
+                    else:
+                        _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = modbus_frame
                 else:
                     hex_list = [f"0x{byte:02x}" for byte in data]
                     _dict['payload']['payload_answer_frame']['modbus_response_frame']['modbus_frame'] = hex_list
