@@ -233,6 +233,10 @@ class MBProto():
         parameters['bits'] = decoded_frame.bits
         parameters['registers'] = decoded_frame.registers
         parameters['status'] = decoded_frame.status
+        if hasattr(decoded_frame, 'exception_code'):
+            parameters['exception_code'] = decoded_frame.exception_code
+        if hasattr(decoded_frame, 'function_code'):
+            parameters['function_code'] = decoded_frame.function_code
         result = {}
         result[decoded_frame.__class__.__name__] = parameters
         return result
