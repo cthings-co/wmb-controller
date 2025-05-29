@@ -71,6 +71,7 @@ async def main():
     parser.add_argument(
             '--period',
             required=False,
+            type=int,
             default=20,
             help='Period in seconds'
     )
