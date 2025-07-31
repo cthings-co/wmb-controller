@@ -109,7 +109,8 @@ class WMBController():
                 else:
                     self._payload_coded = self._modbus_frame
                     self._mbproto.target_port = self._target_port
-                    self._payload_coded = self._mbproto.create_modbus_oneshot(self._payload_coded)
+                    self._payload_coded = self._mbproto.create_modbus_periodic(self._modbus_cfg_idx, self._modbus_interval,
+                                                                               self._payload_coded)
             else:
                 raise ValueError("No Modbus Payload!")
         else:
