@@ -2,8 +2,8 @@ import argparse
 import asyncio
 import logging
 import json
-import wmbc.mb_proto.mb_protocol_pb2 as mb_protocol
-from wmbc.mb_proto.mb_protocol_iface import MBProto
+import mbproto.mb_protocol_pb2 as mb_protocol
+from mbproto.mb_protocol_iface import MBProto
 from google.protobuf.json_format import MessageToJson
 from wmbc.wmbc import WMBController
 

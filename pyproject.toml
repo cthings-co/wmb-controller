@@ -15,7 +15,7 @@ dependencies = [
     "wsctrl (>=1.0.0)",
     "crccheck (>=1.3.0)",
     "pyserial (>=3.5)",
-    "cthingsco-pymodbus (>=3.8.3)"
+    "mbproto (>=1.0.0)"
 ]
 
 [build-system]
