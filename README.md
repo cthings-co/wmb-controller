@@ -48,3 +48,6 @@ Run an example WMBC composition:
 FOTA (Note: you need a binary provided by CTHINGS.CO):
 
     cd docker/examples/fota && docker compose up
+
+## Usage with MQTT
+For MQTT examples go to [wmb-controller-mqtt](https://github.com/cthings-co/wmb-controller-mqtt)
