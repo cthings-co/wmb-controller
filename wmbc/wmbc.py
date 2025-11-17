@@ -6,8 +6,8 @@ import asyncio
 import signal
 
 from wsctrl.sink_ctrl import SinkController, Nbor
-from wmbc.mb_proto import mb_protocol_enums_pb2 as mb_enums
-from wmbc.mb_proto.mb_protocol_iface import MBProto
+from mbproto import mb_protocol_enums_pb2 as mb_enums
+from mbproto.mb_protocol_iface import MBProto
 from google.protobuf.json_format import MessageToJson
 
 
