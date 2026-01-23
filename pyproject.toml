@@ -15,7 +15,7 @@ dependencies = [
     "wsctrl (>=1.0.0)",
     "crccheck (>=1.3.0)",
     "mbproto (>=1.0.2)",
-    "wirepas-gateway (>=1.4.6)"
+    "wirepas-gateway (>=1.5.0)"
 ]
 
 [build-system]
